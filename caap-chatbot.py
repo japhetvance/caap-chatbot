@@ -18,8 +18,6 @@ from langchain_core.runnables.history import RunnableWithMessageHistory
 from pinecone import Pinecone as PineconeClient, ServerlessSpec
 from pinecone_text.sparse import BM25Encoder
 
-os.environ["NLTK_DATA"] = '/nltk_data'
-
 # App title
 st.set_page_config(page_title='🛫💬 SkyGuide CAAP Bot')
 

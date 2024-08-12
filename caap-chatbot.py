@@ -7,6 +7,7 @@ import getpass
 import pandas as pd
 import numpy as np
 import spacy
+import nltk
 from langchain_community.retrievers import PineconeHybridSearchRetriever
 from langchain_community.embeddings import HuggingFaceBgeEmbeddings
 from langchain.chat_models import ChatOpenAI
@@ -18,6 +19,12 @@ from langchain_core.runnables.history import RunnableWithMessageHistory
 from pinecone import Pinecone as PineconeClient, ServerlessSpec
 from pinecone_text.sparse import BM25Encoder
 
+# Set the NLTK_DATA environment variable (optional)
+nltk_data_path = "/nltk_data"
+os.environ['NLTK_DATA'] = nltk_data_path
+
+# Add the path to NLTK's data directories
+nltk.data.path.append(nltk_data_path)
 # App title
 st.set_page_config(page_title='🛫💬 SkyGuide CAAP Bot')
 

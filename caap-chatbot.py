@@ -6,7 +6,7 @@ import re
 import getpass
 import pandas as pd
 import numpy as np
-import nltk
+import spacy
 from langchain_community.retrievers import PineconeHybridSearchRetriever
 from langchain_community.embeddings import HuggingFaceBgeEmbeddings
 from langchain.chat_models import ChatOpenAI
@@ -17,7 +17,6 @@ from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.runnables.history import RunnableWithMessageHistory
 from pinecone import Pinecone as PineconeClient, ServerlessSpec
 from pinecone_text.sparse import BM25Encoder
-nltk.download("punkt")
 
 # App title
 st.set_page_config(page_title='🛫💬 SkyGuide CAAP Bot')

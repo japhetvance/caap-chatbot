@@ -16,7 +16,6 @@ from langchain_community.chat_message_histories import ChatMessageHistory
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.runnables.history import RunnableWithMessageHistory
 from pinecone import Pinecone as PineconeClient, ServerlessSpec
-from pinecone_text.sparse import BM25Encoder
 
 # App title
 st.set_page_config(page_title='🛫💬 SkyGuide CAAP Bot')
@@ -55,10 +54,9 @@ embeddings = HuggingFaceBgeEmbeddings(
 # Initialize Pinecone
 pc = PineconeClient(api_key=os.getenv('PINECONE_API_KEY'))
 index = pc.Index(os.getenv('PINECONE_INDEX_NAME'))
-bm25_encoder = BM25Encoder().default()
 
 # Create the retriever with the BM25 encoder
-retriever = PineconeHybridSearchRetriever(embeddings=embeddings, sparse_encoder=bm25_encoder, index=index)
+retriever = PineconeHybridSearchRetriever(embeddings=embeddings, index=index)
 
 llm = ChatOpenAI(model="gpt-3.5-turbo", temperature=0)
 

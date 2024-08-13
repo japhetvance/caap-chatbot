@@ -145,6 +145,6 @@ if st.session_state.messages[-1]["role"] != "assistant":
                 {"input": prompt}
             )["answer"]
             st.write(response)
-            st.write("Session ID:", session_id)
+            #st.write("Session ID:", session_id)
     message = {"role": "assistant", "content": response}
     st.session_state.messages.append(message)

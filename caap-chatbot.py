@@ -18,13 +18,8 @@ from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.runnables.history import RunnableWithMessageHistory
 from pinecone import Pinecone as PineconeClient, ServerlessSpec
 from pinecone_text.sparse import BM25Encoder
+nltk.download('punkt')
 
-# Set the NLTK_DATA environment variable (optional)
-nltk_data_path = "/nltk_data"
-os.environ['NLTK_DATA'] = nltk_data_path
-
-# Add the path to NLTK's data directories
-nltk.data.path.append(nltk_data_path)
 # App title
 st.set_page_config(page_title='🛫💬 SkyGuide CAAP Bot')
 

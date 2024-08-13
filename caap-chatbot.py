@@ -23,12 +23,12 @@ st.set_page_config(page_title='🛫💬 SkyGuide CAAP Bot')
 
 # Sidebar
 with st.sidebar:
-    st.title('🛫💬 SkyGuide CAAP Bot')
+    st.title('🛫💬 C.A.R.A ChatBot')
     st.write("Reach New Heights:\n\nYour Essential Guide to CAAP Aviation Regulations. Effortlessly navigate the Civil Aviation Authority of the Philippines' rules and guidelines, designed to support you in your aviation journey with clarity and confidence.")
 
 # Initialize chat history
 if "messages" not in st.session_state:
-    st.session_state.messages = [{"role": "assistant", "content": "Hi, I'm Sky, your aviation assistant. How can I assist you today?"}]
+    st.session_state.messages = [{"role": "assistant", "content": "Hi, I'm Cara, your aviation assistant. How can I assist you today?"}]
 
 # Display or clear chat messages
 for message in st.session_state.messages:
@@ -36,7 +36,7 @@ for message in st.session_state.messages:
         st.write(message["content"])
 
 def clear_chat_history():
-    st.session_state.messages = [{"role": "assistant", "content": "Hi, I'm Sky, your aviation assistant. How can I assist you today?"}]
+    st.session_state.messages = [{"role": "assistant", "content": "Hi, I'm Cara, your aviation assistant. How can I assist you today?"}]
     if "session_id" in st.session_state:
         st.session_state.pop("session_id")
 st.sidebar.button('Clear Chat History', on_click=clear_chat_history)
@@ -78,7 +78,7 @@ history_aware_retriever = create_history_aware_retriever(
 )
 
 # Answer question
-qa_system_prompt = """You are an AI assistant specializing in aviation queries. \
+qa_system_prompt = """You are Cara, an AI assistant specializing in aviation queries. \
 Use the following pieces of retrieved context to answer the question. \
 If the answer is not in context, just say that you don't know and ask to provide more information or ask aviation-related queries only. \
 Use three sentences maximum if possible and keep the answer as concise as possible. \

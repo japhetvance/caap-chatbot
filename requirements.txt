@@ -1,6 +1,6 @@
 pandas==2.2.2
 numpy==1.26.4
-spacy==3.7.5
+nltk==3.8.1
 pinecone-client==5.0.0
 langchain==0.2.12
 langchain-community==0.2.11

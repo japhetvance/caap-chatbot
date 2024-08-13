@@ -19,22 +19,21 @@ from langchain_core.runnables.history import RunnableWithMessageHistory
 from pinecone import Pinecone as PineconeClient, ServerlessSpec
 from pinecone_text.sparse import BM25Encoder
 
-# Set the NLTK_DATA environment variable (optional)
-nltk_data_path = "/nltk_data"
-os.environ['NLTK_DATA'] = nltk_data_path
+os.environ['PINECONE_API_KEY'] = 'cee81f14-c2d5-4006-a70a-6795fb7f7270'
+os.environ['PINECONE_INDEX_NAME'] = 'caap-chatbot'
+os.environ["OPENAI_API_KEY"] = open("../openaiapikey.txt", "r").read()
+os.environ['HF_TOKEN'] = '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'
 
-# Add the path to NLTK's data directories
-nltk.data.path.append(nltk_data_path)
 # App title
 st.set_page_config(page_title='🛫💬 SkyGuide CAAP Bot')
 
 # Sidebar
 with st.sidebar:
     st.title('🛫💬 SkyGuide CAAP Bot')
-    st.write("Reach New Heights\n\nYour Essential Guide to CAAP Aviation Regulations. Effortlessly navigate the Civil Aviation Authority of the Philippines' rules and guidelines, designed to support you in your aviation journey with clarity and confidence.")
+    st.write("Reach New Heights:\n\nYour Essential Guide to CAAP Aviation Regulations. Effortlessly navigate the Civil Aviation Authority of the Philippines' rules and guidelines, designed to support you in your aviation journey with clarity and confidence.")
 
 # Initialize chat history
-if "messages" not in st.session_state.keys():
+if "messages" not in st.session_state:
     st.session_state.messages = [{"role": "assistant", "content": "Hi, I'm Sky, your aviation assistant. How can I assist you today?"}]
 
 # Display or clear chat messages
@@ -43,13 +42,12 @@ for message in st.session_state.messages:
         st.write(message["content"])
 
 def clear_chat_history():
-    st.session_state.messages = [{"role": "assistant", "content": "How may I assist you today?"}]
-    # Delete the session history from the store dictionary
-    if session_id in store:
-        del store[session_id]
+    st.session_state.messages = [{"role": "assistant", "content": "Hi, I'm Sky, your aviation assistant. How can I assist you today?"}]
+    if "session_id" in st.session_state:
+        st.session_state.pop("session_id")
 st.sidebar.button('Clear Chat History', on_click=clear_chat_history)
 
-# Your code to initialize the retriever and language model goes here
+# Initialize the retriever and language model
 model_name = "BAAI/bge-large-en-v1.5"
 model_kwargs = {'device': 'cpu'}
 encode_kwargs = {'normalize_embeddings': True}
@@ -69,7 +67,7 @@ retriever = PineconeHybridSearchRetriever(embeddings=embeddings, sparse_encoder=
 
 llm = ChatOpenAI(model="gpt-3.5-turbo", temperature=0)
 
-### Contextualize question ###
+# Contextualize question
 contextualize_q_system_prompt = """Given a chat history and the latest user question \
 which might reference context in the chat history, formulate a standalone question \
 which can be understood without the chat history. Do NOT answer the question, \
@@ -85,10 +83,10 @@ history_aware_retriever = create_history_aware_retriever(
     llm, retriever, contextualize_q_prompt
 )
 
-### Answer question ###
+# Answer question
 qa_system_prompt = """You are an AI assistant specializing in aviation queries. \
 Use the following pieces of retrieved context to answer the question. \
-If the answer is not in context, just say that you don't know and ask to provide more information or ask aviation related queries only \
+If the answer is not in context, just say that you don't know and ask to provide more information or ask aviation-related queries only. \
 Use three sentences maximum if possible and keep the answer as concise as possible. \
 If you are going to use abbreviations, please capitalize it.
 
@@ -104,10 +102,9 @@ question_answer_chain = create_stuff_documents_chain(llm, qa_prompt)
 
 rag_chain = create_retrieval_chain(history_aware_retriever, question_answer_chain)
 
-### Statefully manage chat history ###
+# Statefully manage chat history
 store = {}
 
-@st.cache_data
 def get_session_history(session_id: str = None) -> tuple:
     if session_id is None:
         session_id = str(uuid.uuid4())
@@ -115,15 +112,10 @@ def get_session_history(session_id: str = None) -> tuple:
         store[session_id] = ChatMessageHistory()
     return session_id, store[session_id]
 
-session_id = None
-history = None
-
-@st.cache_data
 def get_current_session_history() -> tuple:
-    global session_id, history
-    if session_id is None or history is None:
-        session_id, history = get_session_history()
-    return session_id, history
+    if "session_id" not in st.session_state or "history" not in st.session_state:
+        st.session_state.session_id, st.session_state.history = get_session_history()
+    return st.session_state.session_id, st.session_state.history
 
 conversational_rag_chain = RunnableWithMessageHistory(
     rag_chain,
@@ -134,7 +126,7 @@ conversational_rag_chain = RunnableWithMessageHistory(
 )
 
 # Generate a new session ID automatically
-session_id, history = get_session_history()
+session_id, history = get_current_session_history()
 
 # User-provided prompt
 if prompt := st.chat_input():

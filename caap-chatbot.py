@@ -18,12 +18,16 @@ from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.runnables.history import RunnableWithMessageHistory
 from pinecone import Pinecone as PineconeClient, ServerlessSpec
 from pinecone_text.sparse import BM25Encoder
+nltk.download('punkt')
 
+<<<<<<< HEAD
 os.environ['PINECONE_API_KEY'] = 'cee81f14-c2d5-4006-a70a-6795fb7f7270'
 os.environ['PINECONE_INDEX_NAME'] = 'caap-chatbot'
 os.environ["OPENAI_API_KEY"] = open("../openaiapikey.txt", "r").read()
 os.environ['HF_TOKEN'] = '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'
 
+=======
+>>>>>>> 4075a0855e4666b6f0f2ae09b3b56b4b76ec55b9
 # App title
 st.set_page_config(page_title='🛫💬 SkyGuide CAAP Bot')
 
@@ -142,6 +146,6 @@ if st.session_state.messages[-1]["role"] != "assistant":
                 {"input": prompt}
             )["answer"]
             st.write(response)
-            st.write("Session ID:", session_id)
+            #st.write("Session ID:", session_id)
     message = {"role": "assistant", "content": response}
     st.session_state.messages.append(message)

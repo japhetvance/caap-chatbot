@@ -6,7 +6,6 @@ import re
 import getpass
 import pandas as pd
 import numpy as np
-import spacy
 import nltk
 from langchain_community.retrievers import PineconeHybridSearchRetriever
 from langchain_community.embeddings import HuggingFaceBgeEmbeddings

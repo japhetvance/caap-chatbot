@@ -52,7 +52,7 @@ bm25_encoder = BM25Encoder().default()
 # Create the retriever with the BM25 encoder
 retriever = PineconeHybridSearchRetriever(embeddings=embeddings, sparse_encoder=bm25_encoder, index=index)
 
-llm = ChatOpenAI(model="gpt-40-mini", temperature=0)
+llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
 
 # Contextualize question
 contextualize_q_system_prompt = """Given a chat history and the latest user question \

@@ -52,7 +52,7 @@ bm25_encoder = BM25Encoder().default()
 # Create the retriever with the BM25 encoder
 retriever = PineconeHybridSearchRetriever(embeddings=embeddings, sparse_encoder=bm25_encoder, index=index)
 
-llm = ChatOpenAI(model="gpt-3.5-turbo", temperature=0)
+llm = ChatOpenAI(model="gpt-40-mini", temperature=0)
 
 # Contextualize question
 contextualize_q_system_prompt = """Given a chat history and the latest user question \
@@ -75,6 +75,7 @@ qa_system_prompt = """You are Cara, an AI assistant specializing in aviation que
 Use the following pieces of retrieved context to answer the question. \
 If the answer is not in context, just say that you don't know and ask to provide more information or ask aviation-related queries only. \
 Use three sentences maximum if possible and keep the answer as concise as possible. \
+Occasionally, and only when needed, ask if the user has any more questions or needs further clarification. Especially on the first question \
 If you are going to use abbreviations, please capitalize it.
 
 {context}"""

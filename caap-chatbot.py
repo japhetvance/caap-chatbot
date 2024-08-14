@@ -8,7 +8,7 @@ import pandas as pd
 import numpy as np
 import nltk
 from langchain_community.retrievers import PineconeHybridSearchRetriever
-from langchain_community.embeddings import HuggingFaceBgeEmbeddings
+from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain.chat_models import ChatOpenAI
 from langchain.chains import create_history_aware_retriever, create_retrieval_chain
 from langchain.chains.combine_documents import create_stuff_documents_chain
@@ -43,15 +43,7 @@ def clear_chat_history():
 st.sidebar.button('Clear Chat History', on_click=clear_chat_history)
 
 # Initialize the retriever and language model
-model_name = "BAAI/bge-large-en-v1.5"
-model_kwargs = {'device': 'cpu'}
-encode_kwargs = {'normalize_embeddings': True}
-embeddings = HuggingFaceBgeEmbeddings(
-    model_name=model_name,
-    model_kwargs=model_kwargs,
-    encode_kwargs=encode_kwargs
-)
-
+embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
 # Initialize Pinecone
 pc = PineconeClient(api_key=os.getenv('PINECONE_API_KEY'))
 index = pc.Index(os.getenv('PINECONE_INDEX_NAME'))

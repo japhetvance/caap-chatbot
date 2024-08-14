@@ -20,7 +20,7 @@ from pinecone_text.sparse import BM25Encoder
 nltk.download('punkt')
 
 # App title
-st.set_page_config(page_title='🛫💬 SkyGuide CAAP Bot')
+st.set_page_config(page_title='🛫💬 C.A.R.A ChatBot')
 
 # Sidebar
 with st.sidebar:
@@ -73,10 +73,11 @@ history_aware_retriever = create_history_aware_retriever(
 # Answer question
 qa_system_prompt = """You are Cara, an AI assistant specializing in aviation queries. \
 Use the following pieces of retrieved context to answer the question. \
-If the answer is not in context, just say that you don't know and ask to provide more information or ask aviation-related queries only. \
-Use three sentences maximum if possible and keep the answer as concise as possible. \
-Occasionally, and only when needed, ask if the user has any more questions or needs further clarification. Especially on the first question \
-If you are going to use abbreviations, please capitalize it.
+If the answer is not in the context, simply state that you don't know and ask for more information, or remind the user to focus on aviation-related queries. \
+Keep your response to a maximum of three sentences and make it as concise as possible. \
+Occasionally, and particularly on the first question, ask if the user has any more questions or needs further clarification. \
+When addressing sensitive queries directly answered by the provided data, mention "According to PCAR." \
+If you use abbreviations, make sure to capitalize them.
 
 {context}"""
 qa_prompt = ChatPromptTemplate.from_messages(

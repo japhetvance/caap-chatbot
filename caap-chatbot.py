@@ -20,10 +20,6 @@ from pinecone import Pinecone as PineconeClient, ServerlessSpec
 from pinecone_text.sparse import BM25Encoder
 nltk.download('punkt')
 
-os.environ['PINECONE_API_KEY'] = 'cee81f14-c2d5-4006-a70a-6795fb7f7270'
-os.environ['PINECONE_INDEX_NAME'] = 'caap-chatbot'
-os.environ["OPENAI_API_KEY"] = open("../openaiapikey.txt", "r").read()
-
 # App title
 st.set_page_config(page_title='🛫💬 C.A.R.A ChatBot')
 
